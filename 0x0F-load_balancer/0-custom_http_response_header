@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 customizing a 404-error_page
 
 # Packages updating before installations
@@ -8,7 +9,7 @@ sudo apt-get install -y nginx
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
 # A "moved permanently redirection" (301) performance
-new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/besthor permanent;"
+new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/lucyouma permanent;"
 sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
 
 # A 404 Custom error page development

@@ -10,11 +10,11 @@ apt-get -y install haproxy
 # edit config file
 server_config=\
 "
-frontend  besthor_frontend
+frontend  lucyouma_frontend
         bind *:80
         mode http
         default_backend besthor_backend
-backend besthor_backend
+backend lucyouma_backend
         balance roundrobin
         server 464782-web-01 54.160.74.212:80 check
         server 464782-web-02 54.172.239.29:80 check
