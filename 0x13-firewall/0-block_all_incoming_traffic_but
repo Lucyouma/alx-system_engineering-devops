@@ -1,4 +1,4 @@
-o -e "Updating\n"
+echo -e "Updating\n"
 
 sudo apt-get update
 
