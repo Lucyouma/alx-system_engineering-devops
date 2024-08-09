@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# A Bash script displaying info about the subdomains
+# A Bash script that will display information about the subdomains
 
 # Check if at least one argument is provided
 if [ $# -lt 1 ]; then
@@ -13,12 +13,12 @@ domain="$1"
 # Set subdomains to query
 subdomains=("www" "lb-01" "web-01" "web-02")
 
-#  Add them to the subdomains array if additional subdomains are provided as arguments
+# If additional subdomains are provided as arguments, add them to the subdomains array
 if [ $# -gt 1 ]; then
   subdomains+=("${@:2}")
 fi
 
-# Display information and loop through subdomains
+# Loop through subdomains and display information
 for subdomain in "${subdomains[@]}"; do
   output=$(dig "$subdomain.$domain" +short)
   if [ -n "$output" ]; then
