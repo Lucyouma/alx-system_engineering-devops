@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This script prints the DNS records of a domain and its subdomains.
+# This script displays information about a domain's subdomains and their DNS records.
 
 print_domain_subdomain () {
     local domain="$1"
@@ -7,24 +7,19 @@ print_domain_subdomain () {
     local fqdn="${subdomain}.${domain}"
     
     dig +short "$fqdn" | while read -r record; do
-        if [[ $record == "34.232.53.201" && $subdomain == "www" ]]; then
-            echo "The subdomain ${subdomain} is an A record and points to ${record} (lb-01 server IP)"
-        elif [[ $record == "54.160.74.212" && $subdomain == "web-01" ]]; then
-            echo "The subdomain ${subdomain} is an A record and points to ${record} (web-01 server IP)"
-        elif [[ $record == "54.172.239.29" && $subdomain == "web-02" ]]; then
-            echo "The subdomain ${subdomain} is an A record and points to ${record} (web-02 server IP)"
+        if [[ $record =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "The subdomain ${subdomain} is an A record and points to ${record}"
         else
             echo "The subdomain ${subdomain} is a CNAME record and points to ${record}"
         fi
     done
 }
 
-if [ "$#" -eq 2 ]
-then
-    print_domain_subdomain "$2.$1" "$2"
+if [ "$#" -eq 2 ]; then
+    print_domain_subdomain "$1" "$2"
 else
-    print_domain_subdomain "www.$1" "www"
-    print_domain_subdomain "lb-01.$1" "lb-01"
-    print_domain_subdomain "web-01.$1" "web-01"
-    print_domain_subdomain "web-02.$1" "web-02"
+    print_domain_subdomain "$1" "www"
+    print_domain_subdomain "$1" "lb-01"
+    print_domain_subdomain "$1" "web-01"
+    print_domain_subdomain "$1" "web-02"
 fi
