@@ -1,25 +1,29 @@
 #!/usr/bin/env bash
-# This script displays information about a domain's subdomains and their DNS records.
+# A Bash script displaying info about the subdomains
 
-print_domain_subdomain () {
-    local domain="$1"
-    local subdomain="$2"
-    local fqdn="${subdomain}.${domain}"
-    
-    dig +short "$fqdn" | while read -r record; do
-        if [[ $record =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "The subdomain ${subdomain} is an A record and points to ${record}"
-        else
-            echo "The subdomain ${subdomain} is a CNAME record and points to ${record}"
-        fi
-    done
-}
-
-if [ "$#" -eq 2 ]; then
-    print_domain_subdomain "$1" "$2"
-else
-    print_domain_subdomain "$1" "www"
-    print_domain_subdomain "$1" "lb-01"
-    print_domain_subdomain "$1" "web-01"
-    print_domain_subdomain "$1" "web-02"
+# Check if at least one argument is provided
+if [ $# -lt 1 ]; then
+  echo "Usage: $0 domain [subdomain1 subdomain2 ...]"
+  exit 1
 fi
+
+# Set domain name
+domain="$1"
+
+# Set subdomains to query
+subdomains=("www" "lb-01" "web-01" "web-02")
+
+#  Add them to the subdomains array if additional subdomains are provided as arguments
+if [ $# -gt 1 ]; then
+  subdomains+=("${@:2}")
+fi
+
+# Display information and loop through subdomains
+for subdomain in "${subdomains[@]}"; do
+  output=$(dig "$subdomain.$domain" +short)
+  if [ -n "$output" ]; then
+    echo "The subdomain $subdomain has IP address $output"
+  else
+    echo "The subdomain $subdomain does not exist"
+  fi
+done
