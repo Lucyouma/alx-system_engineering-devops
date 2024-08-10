@@ -1,4 +1,5 @@
-reates the replica user
+#!/usr/bin/env bash
+# creates the replica user
 CREATE USER IF NOT EXISTS
 	'replica_user'@'%'
 	IDENTIFIED BY 'replica_user_pwd';
