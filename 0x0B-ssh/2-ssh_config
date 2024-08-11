@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ssh configuration
 Host
-	Username ubuntu
-	Hostname 54.160.74.212
-	IdentityName ~/.ssh/school
-	PasswordAuthentication no
+        User Ubuntu
+        HostName 100.25.222.191
+        IdentityFile ~/.ssh/school
+        PasswordAuthentication no
