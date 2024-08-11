@@ -1,3 +1,8 @@
+sudo apt-get update
+sudo apt-get install certbot
+sudo certbot certonly --standalone -d www.example.com
+# /etc/haproxy/haproxy.cfg
+
 global
         log /dev/log    local0
         log /dev/log    local1 notice
@@ -41,11 +46,11 @@ frontend codeget-frontend
         default_backend codeget-backend
 
 frontend codeget-frontend-https
-        bind *:443 ssl crt /etc/haproxy/certs/clickviral.tech.pem
+        bind *:443 ssl crt /etc/haproxy/certs/codeget.tech.pem
         http-request set-header X-Forwarded-Proto https
         default_backend codeget-backend
 
 backend codeget-backend
         balance roundrobin
-        server 464782-web-01 54.160.74.212:80 check
+        server 464782-web-01 100.25.222.191:80 check
         server 464782-web-02 54.172.239.29:80 check
